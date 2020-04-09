@@ -8,27 +8,7 @@ class Todo extends Component {
     this.state = {
       edit: false,
       id: null,
-      mockData: [{
-        id: '1',
-        title: 'Buy Milk.',
-        done: false,
-        date: new Date()
-      }, {
-        id: '2',
-        title: 'Meeting with Ali.',
-        done: false,
-        date: new Date()
-      }, {
-        id: '3',
-        title: 'Tea break.',
-        done: false,
-        date: new Date()
-      }, {
-        id: '4',
-        title: 'Go for a run.',
-        done: false,
-        date: new Date()
-      }]
+      mockData: []
     }
   }
 
@@ -86,21 +66,6 @@ class Todo extends Component {
     });
   }
 
-  onCompleteHandle() {
-    let id = arguments[0];
-
-    this.setState({
-      mockData: this.state.mockData.map(item => {
-        if (item.id === id) {
-          item['done'] = true;
-          return item;
-        }
-
-        return item;
-      })
-    });
-  }
-
   renderEditForm() {
     if (this.state.edit) {
       return <form onSubmit={this.onUpdateHandle.bind(this)}>
@@ -124,7 +89,7 @@ class Todo extends Component {
               {item.title}
               <button onClick={this.onDeleteHandle.bind(this, item.id)}>Delete</button>
               <button onClick={this.onEditHandle.bind(this, item.id, item.title)}>Edit</button>
-              <button onClick={this.onCompleteHandle.bind(this, item.id)}>Complete</button>
+              
             </li>
           ))}
         </ul>

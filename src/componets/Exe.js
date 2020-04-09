@@ -93,29 +93,33 @@ class Exe extends Component {
           </form>
         }
       }
+     renderAddForm(){
+      if (!this.state.edit){
+         return <form onSubmit={this.add}>
+          <input type="text" name="firstname"></input>
+          <input type="text" name="lastname"></input>
+    
+          <button className="btn-add-item btn" >add</button>
+
+
+          </form>
+      }
+     }
     
     render() {
         return (
             <div>
                  {this.renderEditForm()}
-
-                <form onSubmit={this.add}>
-                <input type="text" name="firstname"></input>
-                <input type="text" name="lastname"></input>
-           
-                <button className="btn-add-item btn" >add</button>
-
-
-                </form>
-
-                
-                {this.state.firstName.map((name, index) => (
+                {this.renderAddForm()}
+                            
+                            
+               {this.state.firstName.map((name, index) => (
                 <Child edit={this.edit} firstName={name} key={index} index={index} lastName={this.state.lastName[index]}  delete={this.delete}></Child>
                
               ))}
-              {/* {this.state.lastName.map((name, index) => (
-                <Child add={this.add} value={name} index={index}></Child>
-              ))} */}
+              
+
+              
             </div>
         )
     }
