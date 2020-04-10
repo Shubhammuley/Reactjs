@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import ChildCounter from "./ChildCounter"
 
+import UpdatedComponent from './withCounter'
+
 
 class Counter extends Component {
 
@@ -67,14 +69,17 @@ class Counter extends Component {
         console.log("render parent")
         
         return (
+            // <div>
+            //     <div>Parent Count -> {this.state.count}</div>
+            //     <button onClick={()=>this.increment()}>Parent Increment</button>
+            //     <ChildCounter time={this.state.time.toLocaleTimeString()}/>
+            // </div>
             <div>
-                <div>Parent Count -> {this.state.count}</div>
-                <button onClick={()=>this.increment()}>Parent Increment</button>
-                <ChildCounter time={this.state.time.toLocaleTimeString()}/>
+                <button onClick={this.props.increment}>Click count= {this.props.count}</button>
             </div>
         )
     }
     
 }
 
-export default Counter
+export default UpdatedComponent(Counter)

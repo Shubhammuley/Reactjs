@@ -20,7 +20,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import "./appStyle.css"
 // import style from './appStyle.module.css'
 // import Exe from './componets/Exe'
-import Todo from './componets/ToDo';
+// import Todo from './componets/ToDo';
 // import Fragment from './componets/Fragment'
 // import Table from "./componets/Tables"
 // import Pcomp from "./componets/Pcomp"
@@ -31,6 +31,16 @@ import Todo from './componets/ToDo';
 // import Heros from './componets/Heros'
 // import ErrorHandler from './componets/ErrorHandler'
 // import Counter from './componets/Counter/ParentCounter'
+// import Click from './componets/ClickCounter'
+// import Hover from './componets/HoverCounter'
+// import Click1 from './componets/ClickCounter1'
+// import Hover1 from './componets/HoverCounter1'
+// import Render from './componets/RenderProps'
+// import  ComponentA from './componets/ComponentA'
+
+// import {UserProvider} from './componets/userContext'
+import ClassA from './componets/Context/ClassA';
+
 
 function App() {
   return (
@@ -79,7 +89,7 @@ function App() {
      
      {/* <Fragment /> */}
      {/* <Table /> */}
-    <Todo />
+    {/* <Todo /> */}
     {/* <Pcomp /> */}
     {/* <Refs   ></Refs> */}
     {/* <Focus /> */}
@@ -96,9 +106,28 @@ function App() {
     </ErrorHandler> */}
   
    {/* <Counter /> */}
+    {/* <Click name="shubham"/>
+    <Hover /> */}
+    {/* <Click1 />
+    <Hover1 /> */}
+    {/* <Render render={(count,increment)=>(<Click1 count={count} increment={increment} />)} /> 
+    <Render render={(count,increment)=>(<Hover1 count={count} increment={increment} />)} /> 
+     */}
+    {/* <Render>
+    {(count,increment)=>(<Click1 count={count} increment={increment} />)}
+    
+    </Render> */}
+    {/* <Render>{(count,increment)=>(<Hover1 count={count} increment={increment} />)}</Render> */}
+    
+    {/* <UserProvider value="shubham">
+      <ComponentA />
+    </UserProvider> */}
+    
 
+     <ClassA />
+    
     </div>
-  );
+  );   
 }
 
 export default App;
