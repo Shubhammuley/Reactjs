@@ -3,6 +3,7 @@ import Child from './ExeChild'
 
 
 
+
 class Exe extends Component {
 
     constructor() {
@@ -18,12 +19,11 @@ class Exe extends Component {
       
 
       add=(event)=>{
-        let first= this.state.firstName
-        first.push(event.target.firstname.value)
-
-        let last= this.state.lastName
-        last.push(event.target.lastname.value)
-
+        let first= [...this.state.firstName , event.target.firstname.value]
+        
+        let last= [...this.state.lastName,event.target.lastname.value]
+        
+        
         console.log(first)
         console.log(event.target.firstname.value)
         console.log(event.target.lastname.value)
@@ -72,6 +72,7 @@ class Exe extends Component {
             firstName: first,
             lastName: last
         })
+        console.log(event.target)
       
 
         event.preventDefault();
@@ -93,6 +94,10 @@ class Exe extends Component {
           </form>
         }
       }
+
+          
+
+
      renderAddForm(){
       if (!this.state.edit){
          return <form onSubmit={this.add}>
@@ -104,6 +109,7 @@ class Exe extends Component {
 
           </form>
       }
+      
      }
     
     render() {
@@ -111,12 +117,18 @@ class Exe extends Component {
             <div>
                  {this.renderEditForm()}
                 {this.renderAddForm()}
-                            
-                            
-               {this.state.firstName.map((name, index) => (
+                
+                <table align="center" className="table  table-striped ">
+                <tbody>
+                  
+                  {this.state.firstName.map((name, index) => (
                 <Child edit={this.edit} firstName={name} key={index} index={index} lastName={this.state.lastName[index]}  delete={this.delete}></Child>
                
-              ))}
+                   ))}
+                  
+                </tbody>
+                </table>            
+                       
               
 
               

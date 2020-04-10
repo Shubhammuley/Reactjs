@@ -19,9 +19,18 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import "./appStyle.css"
 // import style from './appStyle.module.css'
-import Exe from './componets/Exe'
-// import Todo from './componets/ToDo';
-
+// import Exe from './componets/Exe'
+import Todo from './componets/ToDo';
+// import Fragment from './componets/Fragment'
+// import Table from "./componets/Tables"
+// import Pcomp from "./componets/Pcomp"
+// import Refs from './componets/Refs'
+// import Focus from "./componets/Focus"
+// import Focus from "./componets/Parinput"
+// import Portal from './componets/PortalDemo'
+// import Heros from './componets/Heros'
+// import ErrorHandler from './componets/ErrorHandler'
+// import Counter from './componets/Counter/ParentCounter'
 
 function App() {
   return (
@@ -66,9 +75,28 @@ function App() {
 
      {/* <Form /> */}
      
-     <Exe />
+     {/* <Exe /> */}
+     
+     {/* <Fragment /> */}
+     {/* <Table /> */}
+    <Todo />
+    {/* <Pcomp /> */}
+    {/* <Refs   ></Refs> */}
+    {/* <Focus /> */}
+    {/* <Portal /> */}
 
-    {/* <Todo /> */}
+  {/* <ErrorHandler>
+    <Heros name="Shubham" />
+    </ErrorHandler>
+    <ErrorHandler>
+    <Heros name="Muley" />
+    </ErrorHandler>
+    <ErrorHandler>
+    <Heros name="Joker" />
+    </ErrorHandler> */}
+  
+   {/* <Counter /> */}
+
     </div>
   );
 }

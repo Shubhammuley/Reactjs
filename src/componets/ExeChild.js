@@ -2,9 +2,9 @@ import React from 'react'
 
 function ExeChild(props) {
     return (
-        <div>
-            
-            <div>
+        <React.Fragment>
+            <tr>
+            <td>
             <form onSubmit={props.edit}>
             <input
                  type='text' 
@@ -19,16 +19,17 @@ function ExeChild(props) {
                  value={props.lastName} 
                  readOnly={true} 
                />
+               
 
            
-            <button type="submit" name="btn" className="btn     " value={props.index}>Edit</button>
+            <button type="submit" name="btn" className="btn " value={props.index}>Edit</button>
             <a herf="#" className="btn " onClick={()=>props.delete(props.index)}>Delete</a>
             </form>
-            </div>
             
-
+            </td>
+            </tr>
             
-        </div>
+        </React.Fragment>
     )
 }
 
