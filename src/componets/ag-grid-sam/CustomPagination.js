@@ -23,63 +23,76 @@ class CustomPagination extends Component {
     
    
     goToPage = pageNumber =>{
-
+       const {gridApi}=this.props
+        
         this.setState({
             activePage:pageNumber
         })
+     gridApi.paginationGoToPage(pageNumber)
         console.log(pageNumber)
     } 
    onButtonClick = () => {
        this.setState(prevs=>{
            return {isPopoverOpen:!prevs.isPopoverOpen}
        })
-       console.log("object")
+       
 
    }
-   closePopover = () => {
+   closePopover = (value) => {
+       const {gridApi}=this.props
+       gridApi.paginationSetPageSize(Number(value));
+
        this.setState({isPopoverOpen:false})
    }
 
     
     render() {
-
+         const {pageSize}=this.props
         const items = [
             <EuiContextMenuItem
-              key="10 rows"
+              key="4 rows"
               icon="empty"
               onClick={() => {
-                this.closePopover();
-                window.alert('10 rows');
+                this.closePopover("4");
+                
               }}>
-              10 rows
+              4 rows
             </EuiContextMenuItem>,
             <EuiContextMenuItem
-              key="20 rows"
+              key="5 rows"
               icon="empty"
               onClick={() => {
-                this.closePopover();
-                window.alert('20 rows');
+                this.closePopover("5");
+                
               }}>
-              20 rows
+              5 rows
             </EuiContextMenuItem>,
             <EuiContextMenuItem
-              key="50 rows"
+              key="6 rows"
               icon="check"
               onClick={() => {
-                this.closePopover();
-                window.alert('50 rows');
+                this.closePopover("6");
+                
               }}>
-              50 rows
+              6 rows
             </EuiContextMenuItem>,
             <EuiContextMenuItem
-              key="100 rows"
+              key="7 rows"
               icon="empty"
               onClick={() => {
-                this.closePopover();
-                window.alert('100 rows');
+                this.closePopover("7");
+            
               }}>
-              100 rows
+              7 rows
             </EuiContextMenuItem>,
+            <EuiContextMenuItem
+            key="8"
+            icon="empty"
+            onClick={() => {
+              this.closePopover("8");
+            }}>
+            8 rows
+          </EuiContextMenuItem>,
           ];
         
           const button = (
@@ -89,7 +102,7 @@ class CustomPagination extends Component {
               iconType="arrowDown"
               iconSide="right"
               onClick={this.onButtonClick}>
-              Rows per page: 50
+              Rows per page: {pageSize}
             </EuiButtonEmpty>
           );
         

@@ -1,9 +1,13 @@
-import React, { Component } from 'react'
 
+import React, { Component } from 'react'
 import {AgGridReact} from 'ag-grid-react';
 import ButtonRender from './Buttons'
+import PopOver from './PopOver'
+import Combobox from './Combobox'
+import Pagination from './Pagination'
+import CustomPagination from './CustomPagination'
 import 'ag-grid-community/dist/styles/ag-grid.css';
-
+import '@elastic/eui/dist/eui_theme_light.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 
@@ -17,18 +21,21 @@ export class Exe extends Component {
     
         this.state = {
           columnDefs: [
-                        {headerName:"Id",field:"studentID"},    
-                        {headerName:"FirstName",field:"firstName"},
-                        {headerName:"LastName",field:"lastName"},
-                        {headerName:"Rollno",field:"rollNo"},
-                        {headerName:"Branch",field:"branch"},                      
+                        {headerName:"Id",field:"studentID", minWidth: 10, maxWidth:100},   
+                        {headerName:"FirstName",field:"firstName", maxWidth:200},
+                        {headerName:"LastName",field:"lastName", maxWidth:200},
+                        {headerName:"Rollno",field:"rollNo", maxWidth:150},
+                        {headerName:"Branch",field:"branch", maxWidth:150}, 
+                        { headerName:"tag",
+                          cellRenderer:"comboBoxRender"},                      
+
                         {
                             headerName: 'edit/delete',
-                            cellRenderer: 'buttonRender',
+                            cellRendererFramework: ButtonRender ,
                             cellRendererParams:{
                                 refer:this,
                                 cbFunc:this.callBack
-                            } },
+                            } ,maxWidth:300 },
           ],
           
           rowData:[ {
@@ -364,8 +371,10 @@ export class Exe extends Component {
           context: { componentParent: this },
           frameworkComponents: {
             buttonRender: ButtonRender,
+            comboBoxRender:Combobox
           },
           defaultColDef: {
+                 
             sortable: true,
             flex: 1,
             minWidth: 100,
@@ -374,37 +383,54 @@ export class Exe extends Component {
           },
                    
             paginationPageSize:5,
+            isFirstnameHidden:null,
+            isLastnameHidden:null,
+            isBranchHidden:null,
+
      
         };
       }
 
 
-
+    
 
     onGridReady = params => {
     this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
-    // params.api.paginationGoToPage(0);
-    };
-
-
-
-
-   callBack=(updatedArray)=>{
-        this.setState({
-            rowData:updatedArray
-        })
-        this.gridApi.setRowData(updatedArray)     
-   }
+    this.gridColumnApi = params.columnApi;   
+    this.setState({
+            isFirstnameHidden:this.gridColumnApi.getColumn('firstName').visible,
+            isLastnameHidden:this.gridColumnApi.getColumn('lastName').visible,
+            isBranchHidden:this.gridColumnApi.getColumn('branch').visible,
+    })
    
+    
+    };
+    updated=()=>{
+        this.setState({
+            isFirstnameHidden:this.gridColumnApi.getColumn('firstName').visible,
+            isLastnameHidden:this.gridColumnApi.getColumn('lastName').visible,
+            isBranchHidden:this.gridColumnApi.getColumn('branch').visible,
+    })
+    }
+
+
+//    callBack=(updatedArray)=>{
+//         this.setState({
+//             rowData:updatedArray
+//         })
+//         this.gridApi.setRowData(updatedArray)     
+//    }
+     
+    
 
     textChange=(e)=> {
-        // console.log(object)
-        console.log(e.target.value)
         this.gridApi.setQuickFilter(e.target.value)
     }
+    
+    
+     
    
-      
+     
     render() {
 
         const {rowData,columnDefs,context,defaultColDef,frameworkComponents,paginationPageSize}=this.state;
@@ -413,17 +439,27 @@ export class Exe extends Component {
         // console.log(this.state.rowData)
         return (
             <div >
-              <div><input type="text" id="filter-text-box" placeholder="Filter..." onInput={this.textChange}/></div>
+              <div><label>Search : </label><input type="text" id="filter-text-box" placeholder="Filter..." onInput={this.textChange}/></div>
+              <Pagination refer={this}/>
+              <div>
                 
+                <PopOver columns={[
+                         {column_name:'firstName',visibilty:this.state.isFirstnameHidden,field:"isFirstnameHidden"},
+                         {column_name:'lastName',visibilty:this.state.isLastnameHidden,field:'isLastnameHidden'},
+                         {column_name:'branch',visibilty:this.state.isBranchHidden , field:'isBranchHidden'}]} 
+                         refer={this}
+                         />
+              </div>
              <div  
              className="ag-theme-alpine"
 				style={{
 					height: '60vh',
-					width: '100%'
+                    width: '100%',
+                   
                 }}>
 
            
-              
+            <React.StrictMode>
                <AgGridReact
               columnDefs={columnDefs}
               rowData={rowData}
@@ -435,8 +471,14 @@ export class Exe extends Component {
               paginationPageSize={paginationPageSize}
               onGridReady={this.onGridReady}
               enableCellChangeFlash={true}
+              onDragStopped={this.updated}
+              
              
             />
+            <CustomPagination pageSize={paginationPageSize} gridApi={this.gridApi}/>
+           </React.StrictMode> 
+            
+         
              </div>
             </div>
         )

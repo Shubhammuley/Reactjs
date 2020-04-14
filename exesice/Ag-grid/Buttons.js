@@ -1,4 +1,8 @@
 import React, { Component } from 'react'
+import {
+    EuiButtonIcon
+  } from '@elastic/eui';
+  
 
 
 class Buttons extends Component {
@@ -6,12 +10,12 @@ class Buttons extends Component {
     
         
     delete=()=>{
-         let {refer,cbFunc}=this.props      
+         let {refer}=this.props      
          const selectedNode=refer.gridApi.getSelectedNodes();
          const index=selectedNode[0].rowIndex
-         const selectedData = selectedNode.map(node=>node.data)
+        //  const selectedData = selectedNode.map(node=>node.data)
          const updatedArray=refer.state.rowData
-         arr.splice(index,1)
+         updatedArray.splice(index,1)
         //  cbFunc(updatedArray)
          
         refer.setState({
@@ -31,8 +35,22 @@ class Buttons extends Component {
         return (
             <div>
                 {/* <EuiButton>click</EuiButton> */}
-                <button className='btn fa fa-trash' onClick={this.delete}></button>
-                <button className='btn fa fa-pencil' onClick={this.update}></button>
+                <EuiButtonIcon
+                className="btn"
+                onClick={this.delete}
+                iconType="trash"
+                aria-label="Next"
+                
+                />
+                 <EuiButtonIcon
+                className="btn"
+                onClick={this.update}
+                iconType="pencil"
+                aria-label="Next"
+                
+                />
+                {/* <button className='btn fa fa-trash' onClick={this.delete}></button> */}
+                {/* <button className='btn fa fa-pencil' onClick={this.update}></button> */}
 
             </div>
         )
