@@ -399,22 +399,38 @@ export class Exe extends Component {
    
 
     textChange=(e)=> {
-        // console.log(object)
+        
         console.log(e.target.value)
         this.gridApi.setQuickFilter(e.target.value)
     }
+    pageSize = (e) => {
+        console.log(e.target.value)
+        this.gridApi.paginationSetPageSize(Number(e.target.value));
+      };
    
       
     render() {
 
         const {rowData,columnDefs,context,defaultColDef,frameworkComponents,paginationPageSize}=this.state;
 
-        console.log("render")
-        console.log(this.state.rowData)
+        // console.log("render")
+        // console.log(this.state.rowData)
         return (
             <div >
               <div><input type="text" id="filter-text-box" placeholder="Filter..." onInput={this.textChange}/></div>
-                
+            <div>
+            Page Size:
+            <select  onChange={this.pageSize}>
+              <option defaultValue="4">4</option>
+              <option defaultValue="5" selected>5</option>
+              <option defaultValue="6">6</option>
+              <option defaultValue="7">7</option>
+              <option defaultValue="8">8</option>
+              <option defaultValue="9">9</option>
+
+              
+            </select>
+            </div>
              <div  
              className="ag-theme-alpine"
 				style={{
@@ -437,6 +453,10 @@ export class Exe extends Component {
               enableCellChangeFlash={true}
              
             />
+            <div>
+           
+          </div>
+         
              </div>
             </div>
         )
