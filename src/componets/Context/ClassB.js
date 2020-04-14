@@ -11,7 +11,8 @@ class ClassB extends Component {
     render() {
         return (
             <div>
-                <ClassC>{this.props.count}</ClassC>
+                <h1>{this.props.count}</h1>
+                <ClassC></ClassC>
             </div>
         )
     }

@@ -5,13 +5,19 @@ import ClassD from "./ClassD"
 
 class ClassC extends Component {
     // static contextType = Context;
+
+    
     shouldComponentUpdate(){
         console.log("updated C")
         return true
     }
+
+    componentDidMount(){
+        console.log(this.context.count)
+    }
     render() {
 
-        // const {count, increment} = this.context
+        const {count, increment} = this.context
         
         return (
             <div>

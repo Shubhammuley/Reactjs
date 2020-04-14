@@ -6,15 +6,16 @@ class ClassD extends Component {
         console.log("updated D")
         return true
     }
+   
     render() {
         return (
             <div>
                 <Consumer>
                     {
                         (value)=>{
-                            const {count, increment} = value      
+                            const {name ,count, increment} = value      
                             
-                            return  <button onClick={increment} className="btn">button D clicked {count}</button>
+                            return  <button onClick={increment} className="btn">button D clicked {count} {name} </button>
                         }
                     }
                 </Consumer>

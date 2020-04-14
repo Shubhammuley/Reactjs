@@ -39,7 +39,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import  ComponentA from './componets/ComponentA'
 
 // import {UserProvider} from './componets/userContext'
-import ClassA from './componets/Context/ClassA';
+// import ClassA from './componets/Context/ClassA';
+// import Aggrid from "./componets/ag-grid-sam/Aggrid"
+// import Aggridapi from "./componets/ag-grid-sam/Aggrid-api"
+// import Grid from './componets/ag-grid-sam/Grid'
+// import GridExample from './componets/ag-grid-sam/GridExample'
+
+import Exe from './componets/ag-grid-sam/Exe'
+// import Form from './componets/EUI/Form'
+
+
 
 
 function App() {
@@ -124,8 +133,13 @@ function App() {
     </UserProvider> */}
     
 
-     <ClassA />
-    
+     {/* <ClassA /> */}
+     {/* <Aggrid/> */}
+     {/* <Aggridapi /> */}
+     {/* <Grid/> */}
+     <Exe />
+     {/* <Form /> */}
+    {/* <GridExample/> */}
     </div>
   );   
 }

@@ -25,8 +25,9 @@ class ClassA extends Component {
     render() {
         return (
             <div>
-                <Provider value={{count:this.state.count,
-                                  increment:this.increment }} >
+                <Provider value={{name:"shuham",
+                                 count:this.state.count,
+                                  increment:this.increment } }  count={this.state.count} >
                     <ClassB/>
                 </Provider>
             </div>
