@@ -386,6 +386,8 @@ export class Exe extends Component {
             isFirstnameHidden:null,
             isLastnameHidden:null,
             isBranchHidden:null,
+            PAGE_COUNT:null,
+            currentPage:0
 
      
         };
@@ -402,7 +404,10 @@ export class Exe extends Component {
             isLastnameHidden:this.gridColumnApi.getColumn('lastName').visible,
             isBranchHidden:this.gridColumnApi.getColumn('branch').visible,
     })
-   
+    console.log(this.gridApi.paginationProxy.totalPages)
+    this.setState({
+        PAGE_COUNT:this.gridApi.paginationProxy.totalPages
+    })
     
     };
     updated=()=>{
@@ -427,20 +432,29 @@ export class Exe extends Component {
         this.gridApi.setQuickFilter(e.target.value)
     }
     
-    
+    callBack=(pageSize)=>{
+        this.setState({
+            PAGE_COUNT:this.gridApi.paginationProxy.totalPages,
+            paginationPageSize:pageSize,
+            currentPage:this.gridApi.paginationGetCurrentPage()
+        })
+    }    
      
    
      
     render() {
-
-        const {rowData,columnDefs,context,defaultColDef,frameworkComponents,paginationPageSize}=this.state;
+        
+        const { rowData
+                ,columnDefs,
+                context,
+                defaultColDef,frameworkComponents,paginationPageSize,PAGE_COUNT,currentPage}=this.state;
 
         // console.log("render")
         // console.log(this.state.rowData)
         return (
             <div >
               <div><label>Search : </label><input type="text" id="filter-text-box" placeholder="Filter..." onInput={this.textChange}/></div>
-              <Pagination refer={this}/>
+              <Pagination gridApi={this.gridApi} cbFunc={this.callBack}/>
               <div>
                 
                 <PopOver columns={[
@@ -472,10 +486,10 @@ export class Exe extends Component {
               onGridReady={this.onGridReady}
               enableCellChangeFlash={true}
               onDragStopped={this.updated}
-              
+              onPaginationChanged={this.changePaged}
              
             />
-            <CustomPagination pageSize={paginationPageSize} gridApi={this.gridApi}/>
+            <CustomPagination pageSize={paginationPageSize} gridApi={this.gridApi} PAGE_COUNT={PAGE_COUNT} activePage={currentPage}cbFunc={this.callBack}/>
            </React.StrictMode> 
             
          

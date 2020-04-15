@@ -10,14 +10,14 @@ import {
   } from '@elastic/eui';
   
 class CustomPagination extends Component {
-
+    
     constructor(props) {
+       
         super(props)
     
         this.state = {
-            activePage:0,
-            isPopoverOpen:false,
-            PAGE_COUNT :10
+                isPopoverOpen:false,
+            
         }
     }
     
@@ -39,16 +39,16 @@ class CustomPagination extends Component {
 
    }
    closePopover = (value) => {
-       const {gridApi}=this.props
+       const {gridApi,cbFunc}=this.props
        gridApi.paginationSetPageSize(Number(value));
-
+       cbFunc(Number(value));
        this.setState({isPopoverOpen:false})
    }
 
     
     render() {
-         const {pageSize}=this.props
-        const items = [
+         const {pageSize, PAGE_COUNT,activePage}=this.props
+         const items = [
             <EuiContextMenuItem
               key="4 rows"
               icon="empty"
@@ -106,7 +106,7 @@ class CustomPagination extends Component {
             </EuiButtonEmpty>
           );
         
-          let {PAGE_COUNT ,isPopoverOpen}=this.state
+          let {isPopoverOpen}=this.state
         return (
             <EuiFlexGroup justifyContent="spaceBetween" alignItems="center">
             <EuiFlexItem grow={false}>
@@ -130,7 +130,7 @@ class CustomPagination extends Component {
             <EuiFlexItem grow={false}>
               <EuiPagination
                 pageCount={PAGE_COUNT}
-                activePage={this.state.activePage}
+                activePage={activePage}
                 onPageClick={this.goToPage}
               />
             </EuiFlexItem> 

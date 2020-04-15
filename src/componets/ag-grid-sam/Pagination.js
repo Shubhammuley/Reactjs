@@ -3,8 +3,10 @@ import React, { Component } from 'react'
 class Pagination extends Component {
 
     pageSize = (e) => {
-        const {refer} = this.props
-        refer.gridApi.paginationSetPageSize(Number(e.target.value));
+        const {gridApi,cbFunc} = this.props
+        gridApi.paginationSetPageSize(Number(e.target.value));
+        
+        cbFunc(Number(e.target.value));
       };
 
 

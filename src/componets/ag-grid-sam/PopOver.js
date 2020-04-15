@@ -42,13 +42,7 @@ class PopOver extends Component {
        
     }
     
-      // eyeClosed=(refer,column_name,field)=>{
-      //     console.log("closed")
-      //     console.log(column_name)
-      //     console.log(field)
-
-
-      // }
+   
 
     
     
