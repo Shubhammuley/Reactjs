@@ -47,6 +47,7 @@ class Buttons extends Component {
                 onClick={this.delete}
                 iconType="trash"
                 aria-label="Next"
+                size="s"
                 
                 />
                  <EuiButtonIcon

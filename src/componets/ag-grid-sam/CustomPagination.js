@@ -14,10 +14,10 @@ class CustomPagination extends Component {
     constructor(props) {
        
         super(props)
-    
+        let {activePage}=props
         this.state = {
                 isPopoverOpen:false,
-            
+                activePage:activePage
         }
     }
     
@@ -47,11 +47,22 @@ class CustomPagination extends Component {
 
     
     render() {
-         const {pageSize, PAGE_COUNT,activePage}=this.props
+         const {pageSize, PAGE_COUNT}=this.props
+         let {isPopoverOpen,activePage}=this.state
+            console.log(" pagesize---->"+pageSize)
          const items = [
+           <EuiContextMenuItem
+              key="all"
+              icon="empty"
+              onClick={() => {
+                this.closePopover();
+                
+              }}>
+              all rows
+            </EuiContextMenuItem>,
             <EuiContextMenuItem
               key="4 rows"
-              icon="empty"
+              icon={pageSize==4? "check" : "empty" }
               onClick={() => {
                 this.closePopover("4");
                 
@@ -60,7 +71,7 @@ class CustomPagination extends Component {
             </EuiContextMenuItem>,
             <EuiContextMenuItem
               key="5 rows"
-              icon="empty"
+              icon={pageSize==5? "check" : "empty" }
               onClick={() => {
                 this.closePopover("5");
                 
@@ -69,7 +80,7 @@ class CustomPagination extends Component {
             </EuiContextMenuItem>,
             <EuiContextMenuItem
               key="6 rows"
-              icon="check"
+              icon={pageSize==6? "check" : "empty" }
               onClick={() => {
                 this.closePopover("6");
                 
@@ -78,7 +89,7 @@ class CustomPagination extends Component {
             </EuiContextMenuItem>,
             <EuiContextMenuItem
               key="7 rows"
-              icon="empty"
+              icon={pageSize==7? "check" : "empty" }
               onClick={() => {
                 this.closePopover("7");
             
@@ -87,7 +98,7 @@ class CustomPagination extends Component {
             </EuiContextMenuItem>,
             <EuiContextMenuItem
             key="8"
-            icon="empty"
+            icon={pageSize==8? "check" : "empty" }
             onClick={() => {
               this.closePopover("8");
             }}>
@@ -102,11 +113,10 @@ class CustomPagination extends Component {
               iconType="arrowDown"
               iconSide="right"
               onClick={this.onButtonClick}>
-              Rows per page: {pageSize}
+              Rows per page: {pageSize || "All"}
             </EuiButtonEmpty>
           );
         
-          let {isPopoverOpen}=this.state
         return (
             <EuiFlexGroup justifyContent="spaceBetween" alignItems="center">
             <EuiFlexItem grow={false}>

@@ -9,6 +9,7 @@ import CustomPagination from './CustomPagination'
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import '@elastic/eui/dist/eui_theme_light.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import FilterBox from './FilterBox'
 
 
 
@@ -26,7 +27,7 @@ export class Exe extends Component {
                         {headerName:"LastName",field:"lastName", maxWidth:200},
                         {headerName:"Rollno",field:"rollNo", maxWidth:150},
                         {headerName:"Branch",field:"branch", maxWidth:150}, 
-                        { headerName:"tag",
+                        { headerName:"tag",field:'tag',
                           cellRenderer:"comboBoxRender"},                      
 
                         {
@@ -386,6 +387,8 @@ export class Exe extends Component {
             isFirstnameHidden:null,
             isLastnameHidden:null,
             isBranchHidden:null,
+            isRollNoHidden:null,
+            isTagHidden:null,
             PAGE_COUNT:null,
             currentPage:0
 
@@ -403,11 +406,13 @@ export class Exe extends Component {
             isFirstnameHidden:this.gridColumnApi.getColumn('firstName').visible,
             isLastnameHidden:this.gridColumnApi.getColumn('lastName').visible,
             isBranchHidden:this.gridColumnApi.getColumn('branch').visible,
+            isRollNoHidden:this.gridColumnApi.getColumn('rollNo').visible,
+            isTagHidden:this.gridColumnApi.getColumn('tag').visible,
+            PAGE_COUNT:this.gridApi.paginationProxy.totalPages
+
     })
-    console.log(this.gridApi.paginationProxy.totalPages)
-    this.setState({
-        PAGE_COUNT:this.gridApi.paginationProxy.totalPages
-    })
+    console.log("--->"+this.gridApi.paginationGetRowCount())
+  
     
     };
     updated=()=>{
@@ -415,6 +420,9 @@ export class Exe extends Component {
             isFirstnameHidden:this.gridColumnApi.getColumn('firstName').visible,
             isLastnameHidden:this.gridColumnApi.getColumn('lastName').visible,
             isBranchHidden:this.gridColumnApi.getColumn('branch').visible,
+            isRollNoHidden:this.gridColumnApi.getColumn('rollNo').visible,
+            isTagHidden:this.gridColumnApi.getColumn('tag').visible,
+
     })
     }
 
@@ -428,18 +436,24 @@ export class Exe extends Component {
      
     
 
-    textChange=(e)=> {
-        this.gridApi.setQuickFilter(e.target.value)
-    }
+
     
     callBack=(pageSize)=>{
-        this.setState({
-            PAGE_COUNT:this.gridApi.paginationProxy.totalPages,
-            paginationPageSize:pageSize,
-            currentPage:this.gridApi.paginationGetCurrentPage()
+        this.setState(prevs=>{
+            return {
+                PAGE_COUNT:this.gridApi.paginationProxy.totalPages,
+                paginationPageSize:pageSize || prevs.paginationPageSize,
+                currentPage:this.gridApi.paginationGetCurrentPage()
+            }
         })
     }    
      
+    changed=()=>{
+        console.log("pagination")
+        // this.setState(prevs=>{
+        //       return  {currentPage:this.gridApi.paginationGetCurrentPage() || prevs.currentPage}
+        // })
+    }
    
      
     render() {
@@ -453,14 +467,16 @@ export class Exe extends Component {
         // console.log(this.state.rowData)
         return (
             <div >
-              <div><label>Search : </label><input type="text" id="filter-text-box" placeholder="Filter..." onInput={this.textChange}/></div>
-              <Pagination gridApi={this.gridApi} cbFunc={this.callBack}/>
+               <FilterBox gridApi={this.gridApi} cbFunc={this.callBack} />
+              {/* <Pagination gridApi={this.gridApi} cbFunc={this.callBack}/> */}
               <div>
                 
                 <PopOver columns={[
                          {column_name:'firstName',visibilty:this.state.isFirstnameHidden,field:"isFirstnameHidden"},
                          {column_name:'lastName',visibilty:this.state.isLastnameHidden,field:'isLastnameHidden'},
-                         {column_name:'branch',visibilty:this.state.isBranchHidden , field:'isBranchHidden'}]} 
+                         {column_name:'branch',visibilty:this.state.isBranchHidden , field:'isBranchHidden'},
+                         {column_name:'rollNo',visibilty:this.state.isRollNoHidden , field:'isRollNoHidden'},
+                         {column_name:'tag',visibilty:this.state.isTagHidden , field:'isTagHidden'},]} 
                          refer={this}
                          />
               </div>
@@ -486,7 +502,7 @@ export class Exe extends Component {
               onGridReady={this.onGridReady}
               enableCellChangeFlash={true}
               onDragStopped={this.updated}
-              onPaginationChanged={this.changePaged}
+              onPaginationChanged={this.changed}
              
             />
             <CustomPagination pageSize={paginationPageSize} gridApi={this.gridApi} PAGE_COUNT={PAGE_COUNT} activePage={currentPage}cbFunc={this.callBack}/>
