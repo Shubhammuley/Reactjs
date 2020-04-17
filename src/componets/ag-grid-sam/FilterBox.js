@@ -1,17 +1,28 @@
 import React, { Component } from 'react'
+import { EuiFieldText } from '@elastic/eui';
 
-export class FilterBox extends Component {
+ class FilterBox extends Component {
 
     textChange=(e)=> {
         let {gridApi,cbFunc}=this.props
         gridApi.setQuickFilter(e.target.value)
+        console.log(gridApi)
         cbFunc();
-    }
+      }
 
     render() {
         return (
+            
             <div>
-                <div><label>Search : </label><input type="text" id="filter-text-box" placeholder="Filter..." onInput={this.textChange}/></div>
+                <div style={{paddingLeft:'38%'}}>
+
+                    <EuiFieldText
+                    placeholder="Enter search value....."
+                    // value={value}
+                    onChange={e => this.textChange(e)}
+                    aria-label="Use aria labels when no actual label is in use"
+                
+            /></div>
             </div>
         )
     }

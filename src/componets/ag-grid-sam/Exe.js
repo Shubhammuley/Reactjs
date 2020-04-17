@@ -4,7 +4,7 @@ import {AgGridReact} from 'ag-grid-react';
 import ButtonRender from './Buttons'
 import PopOver from './PopOver'
 import Combobox from './Combobox'
-import Pagination from './Pagination'
+// import Pagination from './Pagination'
 import CustomPagination from './CustomPagination'
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import '@elastic/eui/dist/eui_theme_light.css';
@@ -408,10 +408,11 @@ export class Exe extends Component {
             isBranchHidden:this.gridColumnApi.getColumn('branch').visible,
             isRollNoHidden:this.gridColumnApi.getColumn('rollNo').visible,
             isTagHidden:this.gridColumnApi.getColumn('tag').visible,
-            PAGE_COUNT:this.gridApi.paginationProxy.totalPages
+            PAGE_COUNT:this.gridApi.paginationProxy.totalPages,
+            currentPage:this.gridApi.paginationGetCurrentPage()
 
     })
-    console.log("--->"+this.gridApi.paginationGetRowCount())
+    // console.log("--->"+this.gridApi.paginationGetRowCount())
   
     
     };
@@ -449,22 +450,29 @@ export class Exe extends Component {
     }    
      
     changed=()=>{
-        console.log("pagination")
-        // this.setState(prevs=>{
-        //       return  {currentPage:this.gridApi.paginationGetCurrentPage() || prevs.currentPage}
-        // })
+        if(this.gridApi === undefined){
+          
+        }
+        else{
+       
+        this.setState(prevs=>{
+              return  {
+                    currentPage:this.gridApi.paginationGetCurrentPage(),
+                    PAGE_COUNT:this.gridApi.paginationProxy.totalPages
+                }
+        })
+        }
     }
    
      
     render() {
-        
+         
         const { rowData
                 ,columnDefs,
                 context,
                 defaultColDef,frameworkComponents,paginationPageSize,PAGE_COUNT,currentPage}=this.state;
 
-        // console.log("render")
-        // console.log(this.state.rowData)
+       
         return (
             <div >
                <FilterBox gridApi={this.gridApi} cbFunc={this.callBack} />

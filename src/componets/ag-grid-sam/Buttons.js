@@ -9,28 +9,28 @@ class Buttons extends Component {
    
     
         
-    // delete=()=>{
-    //      let {refer}=this.props      
-    //      const selectedNode=refer.gridApi.getSelectedNodes();
-    //      const index=selectedNode[0].rowIndex
-    //     //  const selectedData = selectedNode.map(node=>node.data)
-    //      const updatedArray=refer.state.rowData
-    //      updatedArray.splice(index,1)
-    //     //  cbFunc(updatedArray)
+    delete=()=>{
+         const {refer}=this.props      
+         const selectedNode=refer.gridApi.getSelectedNodes();
+         const index=selectedNode[0].id
+         const updatedArray=refer.state.rowData
+
+         updatedArray.splice(index,1)
+        //  cbFunc(updatedArray)
          
-    //     refer.setState({
-    //         rowData:updatedArray
-    //     })
-    //     refer.gridApi.setRowData(updatedArray)
+        refer.setState({
+            rowData:updatedArray
+        })
+        refer.gridApi.setRowData(updatedArray)
                 
          
-    //     }
-
-        delete=()=>{
-            let {refer}=this.props 
-            const selectedNode=refer.gridApi.getSelectedRows()
-            refer.gridApi.updateRowData({remove:selectedNode})
         }
+
+        // delete=()=>{
+        //     let {refer}=this.props 
+        //     const selectedNode=refer.gridApi.getSelectedRows()
+        //     refer.gridApi.updateRowData({remove:selectedNode})
+        // }
 
     update=()=>{
 

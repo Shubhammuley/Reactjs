@@ -14,7 +14,7 @@ class PopOver extends Component {
             <EuiButtonIcon
             className="btn"
             onClick={this.onButtonClick}
-            iconType="managementApp"
+            iconType="gear"
             aria-label="Next"
             
             />
