@@ -5,46 +5,16 @@ import {
   
 
 
-class Buttons extends Component {
-   
-    
-        
-    delete=()=>{
-         const {refer}=this.props      
-         const selectedNode=refer.gridApi.getSelectedNodes();
-         const index=selectedNode[0].id
-         const updatedArray=refer.state.rowData
-
-         updatedArray.splice(index,1)
-        //  cbFunc(updatedArray)
-         
-        refer.setState({
-            rowData:updatedArray
-        })
-        refer.gridApi.setRowData(updatedArray)
-                
-         
-        }
-
-        // delete=()=>{
-        //     let {refer}=this.props 
-        //     const selectedNode=refer.gridApi.getSelectedRows()
-        //     refer.gridApi.updateRowData({remove:selectedNode})
-        // }
-
-    update=()=>{
-
-    }  
-    
-
+class Buttons extends Component {    
+  
 
     render() {
         return (
             <div>
-                {/* <EuiButton>click</EuiButton> */}
+                
                 <EuiButtonIcon
                 className="btn"
-                onClick={this.delete}
+                onClick={()=>this.props.cbFunc()}
                 iconType="trash"
                 aria-label="Next"
                 size="s"
@@ -57,8 +27,7 @@ class Buttons extends Component {
                 aria-label="Next"
                 
                 />
-                {/* <button className='btn fa fa-trash' onClick={this.delete}></button> */}
-                {/* <button className='btn fa fa-pencil' onClick={this.update}></button> */}
+              
 
             </div>
         )

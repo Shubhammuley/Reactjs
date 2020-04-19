@@ -1,52 +1,104 @@
-import React, { Component } from 'react';
-import { EuiPopover, EuiButtonIcon } from '@elastic/eui';
-import { EuiFlexItem } from '@elastic/eui';
+import { EuiPopover, EuiButtonIcon, EuiButtonEmpty } from "@elastic/eui";
 
-  class Action extends Component {
-    constructor(props) {
-      super(props)
-      this.state = {
-        setIsPopoverOpen: false
-       // button: <EuiButton iconType="gear" iconSide="right" onClick={this.onButtonClick} ></EuiButton>
-      }
-    }
+import React, { Component } from "react";
 
-onButtonClick = () => {
-  console.log(this.state.setIsPopoverOpen)
- this.setState({
-   setIsPopoverOpen: !this.state.setIsPopoverOpen
-})
-console.log(this.state.setIsPopoverOpen)
+class DynamicPopOver extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isPopoverOpen: false,
+      button: (
+        <EuiButtonIcon
+          className="btn"
+          onClick={this.onButtonClick}
+          iconType="gear"
+          aria-label="Next"
+        />
+      ),
+    };
   }
+
+  onButtonClick = () => {
+    this.setState({
+      isPopoverOpen: !this.state.isPopoverOpen,
+    });
+  };
 
   closePopover = () => {
     this.setState({
-      setIsPopoverOpen: false    })
-  }
-    //  button = (
-    //   <EuiButton iconType="arrowDown" iconSide="right" onClick={onButtonClick}>
-    //     Show popover
-    //   </EuiButton>
-    // );
+      isPopoverOpen: false,
+    });
+  };
 
+  columnHide = (index) => {
+    const { popOverCb } = this.props;
+    popOverCb(index);
+  };
 
-    render() {
-      return(
-        <EuiFlexItem grow={false}>
+  render() {
+    const { columnDefs } = this.props;
+
+    const { button, isPopoverOpen } = this.state;
+
+    return (
+      <div>
         <EuiPopover
-        button = {<EuiButtonIcon iconType="gear" className="btn" iconSide="right" onClick={this.onButtonClick} ></EuiButtonIcon>}
-        isOpen=  {this.state.setIsPopoverOpen}
-        className="btn"
-
-        closePopover={this.closePopover}
-        anchorPosition="upLeft">
-
-          Popover content 
-
-
+          button={button}
+          isOpen={isPopoverOpen}
+          closePopover={this.closePopover}
+          style={{
+            float: "right",
+          }}
+        >
+          {columnDefs.map((column, index) => {
+            if (column.visible) {
+              return (
+                <div key={index}>
+                  <EuiButtonEmpty
+                    key={index}
+                    iconType={column.hide ? "eyeClosed" : "eye"}
+                    iconSide="left"
+                    className="btn"
+                    onClick={() => {
+                      this.columnHide(index);
+                    }}
+                  >
+                    {column.headerName}
+                  </EuiButtonEmpty>
+                </div>
+              );
+            }
+          })}
         </EuiPopover>
-        </EuiFlexItem>
-      )
-    }
+      </div>
+    );
   }
-  export default Action
+}
+
+export default DynamicPopOver;
+
+// <PopContent key={index}
+//                                     button_hide={column.visibilty}
+//                                     column_name={column.column_name}
+//                                      field={column.field}refer={refer}
+//                                      cbFunc={this.callBack}/>
+
+// columnHide=(columnDef,index)=>{
+
+//  const Callback = this.props
+//   const {field ,hide}=columnDef[index]
+//   columnDef[index].hide=!hide
+//   console.log(hide)
+
+//   Callback(columnDef , field,hide)
+
+// }
+
+// Callback=(columnDef , field,hide)=>{
+
+//   this.setState({
+//     columnDefs:columnDef
+//   })
+//   this.gridColumnApi.setColumnVisible(field, hide)
+// }

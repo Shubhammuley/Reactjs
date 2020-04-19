@@ -45,7 +45,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import Grid from './componets/ag-grid-sam/Grid'
 // import GridExample from './componets/ag-grid-sam/GridExample'
 import Exe from './componets/ag-grid-sam/Exe'
-// import Form from './componets/EUI/Form'
+import Form from './componets/EUI/Form'
 
 
 import '@elastic/eui/dist/eui_theme_light.css';

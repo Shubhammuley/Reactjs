@@ -1,5 +1,5 @@
 
-import { EuiPopover, EuiButtonIcon ,EuiButtonEmpty} from '@elastic/eui';
+import { EuiPopover, EuiButtonIcon ,EuiButton} from '@elastic/eui';
 
 import React, { Component } from 'react'
 // import PopContent from './PopoverContent'
@@ -10,7 +10,7 @@ class PopOver extends Component {
     
         this.state = {
           isPopoverOpen: false,
-          button:(   
+          button:(    
             <EuiButtonIcon
             className="btn"
             onClick={this.onButtonClick}
@@ -60,14 +60,14 @@ class PopOver extends Component {
                 
                 return (  <div  key={index}>
                   
-                          <EuiButtonEmpty key={index}
+                          <EuiButton key={index}
                                       iconType={column.visibilty ?  'eye':'eyeClosed'}
                                      iconSide="left"  
                                      className="btn"
                                      onClick={()=>{this.columnHide(refer,column.column_name,column.field)}}
                                      >
                              {column.column_name}
-                          </EuiButtonEmpty>
+                          </EuiButton>
                 </div>
                 )
               })
