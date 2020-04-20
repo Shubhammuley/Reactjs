@@ -1,6 +1,13 @@
 import React, { Component, Fragment } from "react";
 
-import { EuiComboBox ,EuiButtonEmpty,EuiPopover,EuiBadge} from "@elastic/eui";
+import { EuiComboBox ,
+         EuiButtonEmpty,
+         EuiPopover,
+         EuiBadge,
+         EuiModal,
+         EuiModalBody,
+         EuiModalHeader,
+         EuiModalHeaderTitle,} from "@elastic/eui";
 
 class Combobox extends Component {
   constructor(props) {
@@ -35,25 +42,21 @@ class Combobox extends Component {
       ],
       selectedOptions: [],
       isPopoverOpen:false,
-      display:null
+      display:null,
+      
     };
   }
-  // componentDidMount=()=>{
-  //   const {callBack}=this.props
-  //   this.setState({
-  //     selectedOptions:[this.state.options[0], this.state.options[1]]
-  //   })
-  // }
+
   onChange = (selectedOptions) => {
-    const {callBack}=this.props
+    const {optionCb}=this.props
     this.setState({
       selectedOptions: selectedOptions,
-    },()=>{callBack(this.state.selectedOptions)});
+    },()=>{optionCb(this.state.selectedOptions)});
 
   };
 
   onCreateOption = (searchValue, flattenedOptions = []) => {
-    const {callBack}=this.props
+    const {optionCb}=this.props
 
     if (!searchValue) {
       return;
@@ -84,7 +87,7 @@ class Combobox extends Component {
 
     this.setState(prevs=>{
      return {selectedOptions: [...prevs.selectedOptions, newOption],}
-    },()=>{callBack(this.state.selectedOptions)});
+    },()=>{optionCb(this.state.selectedOptions)});
   };
   
   onButtonClick=()=>{
@@ -92,23 +95,7 @@ class Combobox extends Component {
        return {isPopoverOpen:!prevs.isPopoverOpen}
     })
   }
-  closePopover=()=>{
-    this.setState({
-      isPopoverOpen:false
-    })
-  }
 
-  check=()=>{
-    const {selectedOptions}=this.state
-    if(selectedOptions.length>2){
-      return selectedOptions.map(option=>{
-         return option
-      })
-         
-
-    }
-
-  }
 
   display=()=>{
     const {selectedOptions}=this.state
@@ -135,26 +122,12 @@ class Combobox extends Component {
 
  
   render() {
-    const {options ,isPopoverOpen, selectedOptions}=this.state
-    
-   
+    const {options , selectedOptions}=this.state
 
-    return (
-           
-       <EuiPopover
-            ownFocus
-            button={
-              <EuiButtonEmpty
-                iconType="plusInCircle"
-                iconSide="right"
-                onClick={this.onButtonClick}>
-                 {this.display()}
-              </EuiButtonEmpty>
-            }
-            isOpen={isPopoverOpen}
-            closePopover={this.closePopover}
-            anchorPosition="leftCenter">
-                  <EuiComboBox
+   
+     return (
+       <Fragment>
+         <EuiComboBox
                 placeholder="Select or create options"
                 options={options}
                 selectedOptions={selectedOptions}
@@ -162,15 +135,18 @@ class Combobox extends Component {
                 onCreateOption={this.onCreateOption}
                 style={{ width: "700px" }}
                  />
-        </EuiPopover>
-         
-        
+
       
-    );
+      </Fragment>
+     )
+
+    
   }
 }
 
 export default Combobox;
+
+
 
 
 
@@ -203,64 +179,3 @@ export default Combobox;
    
  
 // );
-
-
-
-
-// display=()=>{
-//   const {selectedOptions}=this.state
-//   if(selectedOptions.length <=2 ){
-//     return (      
-//       selectedOptions.map((option,index)=>{
-//         return (<EuiFlexItem style={{paddingTop:"5%"}}><EuiBadge key={index} iconType="cross" iconSide="right">{option.label}</EuiBadge></EuiFlexItem>)
-//       })
-    
-//      )
-//   }
-//  else{
-//    return (
-//            <Fragment> 
-               
-//              <EuiFlexItem style={{paddingTop:"5%"}}><EuiBadge iconType="cross" iconSide="right">{selectedOptions[0].label}</EuiBadge></EuiFlexItem>          
-//              <EuiFlexItem style={{paddingTop:"5%"}}><EuiBadge iconType="cross" iconSide="right">{selectedOptions[1].label}</EuiBadge></EuiFlexItem>          
-//              <EuiFlexItem style={{paddingTop:"2%"}}><span>+ {selectedOptions.length - 2}</span></EuiFlexItem>          
-             
-             
-              
-            
-                   
-//            </Fragment>
-//           )
-//  }
-  
-
-// }
-
-//  <EuiFlexGroup>
-// {this.display()}
-
-// <EuiFlexItem>
-// <EuiPopover
-// ownFocus
-// button={
-// <EuiButtonEmpty
-// iconType="plusInCircle"
-// iconSide="right"
-// onClick={this.onButtonClick}>
-// </EuiButtonEmpty>
-// }
-// isOpen={isPopoverOpen}
-// closePopover={this.closePopover}
-// anchorPosition="leftCenter">
-//  <EuiComboBox
-// placeholder="Select or create options"
-// options={options}
-// selectedOptions={selectedOptions}
-// onChange={this.onChange}
-// onCreateOption={this.onCreateOption}
-// style={{ width: "700px" }}
-// />
-// </EuiPopover>
-// </EuiFlexItem>
-// </EuiFlexGroup>
-

@@ -4,10 +4,8 @@ import { EuiFieldText } from '@elastic/eui';
  class FilterBox extends Component {
 
     textChange=(e)=> {
-        let {gridApi,cbFunc}=this.props
-        gridApi.setQuickFilter(e.target.value)
-        console.log(gridApi)
-        cbFunc();
+        let {cbFunc}=this.props       
+        cbFunc(e.target.value);
       }
 
     render() {
@@ -17,6 +15,7 @@ import { EuiFieldText } from '@elastic/eui';
                 <div style={{paddingLeft:'38%'}}>
 
                     <EuiFieldText
+                    icon="search"
                     placeholder="Enter search value....."
                     // value={value}
                     onChange={e => this.textChange(e)}

@@ -1,86 +1,147 @@
-import React, { Component } from 'react'
-import makeId from '@elastic/eui';
-
+import React, { useState, Fragment } from 'react';
 
 import {
+  EuiComboBox,
   EuiButton,
-  EuiButtonEmpty,
-  EuiFieldText,
-  EuiForm,
+  EuiPopover,
   EuiFormRow,
   EuiModal,
   EuiModalBody,
-  EuiModalFooter,
   EuiModalHeader,
   EuiModalHeaderTitle,
-  EuiOverlayMask
+  EuiOverlayMask,
+  EuiSpacer,
 } from '@elastic/eui';
 
+const options = [
+  {
+    label: 'Titan',
+    'data-test-subj': 'titanOption',
+  },
+  {
+    label: 'Enceladus',
+  },
+  {
+    label: 'Mimas',
+  },
+  {
+    label: 'Dione',
+  },
+  {
+    label: 'Iapetus',
+  },
+  {
+    label: 'Phoebe',
+  },
+  {
+    label: 'Rhea',
+  },
+  {
+    label:
+      "Pandora is one of Saturn's moons, named for a Titaness of Greek mythology",
+  },
+  {
+    label: 'Tethys',
+  },
+  {
+    label: 'Hyperion',
+  },
+];
 
-class Form extends Component {
-  
-  constructor(props) {
-    super(props)
-  
-    this.state = {
-      isModalVisible:false
-        }
-        this.componentRef = React.createRef()
+export default () => {
+  const [selectedOptions, setSelected] = useState([options[2], options[4]]);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [isPopoverOpen, setPopover] = useState(false);
 
-  }
-  
-  
-  closeModal=()=>{
-    this.componentRef.current.focus();
+  const closeModal = () => {
+    setModalVisible(false);
+  };
 
-    console.log("modal closed")
-    this.setState({
-      isModalVisible:false
-    },()=>{console.log(this.state.isModalVisible)})
+  const showModal = () => {
+    setModalVisible(true);
+  };
 
-    // console.log(this.componentRef)
-  }
-  showModal=()=>{
-    console.log("modal opened")
+  const togglePopover = () => {
+    setPopover(!isPopoverOpen);
+  };
 
-    this.setState({
-      isModalVisible:true
-    },()=>{console.log(this.state.isModalVisible)})
-  }
+  const closePopover = () => {
+    setPopover(false);
+  };
 
-  render() {
-    let modal;
-  if (this.state.isModalVisible) {
+  const onChange = selectedOptions => {
+    setSelected(selectedOptions);
+  };
+
+  const onCreateOption = (searchValue, flattenedOptions = []) => {
+    if (!searchValue) {
+      return;
+    }
+
+    const normalizedSearchValue = searchValue.trim().toLowerCase();
+
+    if (!normalizedSearchValue) {
+      return;
+    }
+
+    const newOption = {
+      label: searchValue,
+    };
+
+    // Create the option if it doesn't exist.
+    if (
+      flattenedOptions.findIndex(
+        option => option.label.trim().toLowerCase() === normalizedSearchValue
+      ) === -1
+    ) {
+      options.push(newOption);
+    }
+
+    // Select the option.
+    setSelected([...selectedOptions, newOption]);
+  };
+
+  const comboBox = (
+    <EuiComboBox
+      placeholder="Select or create options"
+      options={options}
+      selectedOptions={selectedOptions}
+      onChange={onChange}
+      onCreateOption={onCreateOption}
+    />
+  );
+
+  const button = (
+    <EuiButton iconType="arrowDown" iconSide="right" onClick={togglePopover}>
+      Open popover
+    </EuiButton>
+  );
+
+  let modal;
+
+  if (isModalVisible) {
     modal = (
-      <EuiOverlayMask>
-        <EuiModal onClose={this.closeModal} initialFocus="[name=popswitch]">
+      
+        <div style={{paddingLeft:'25%'}}>
+
+        <EuiModal onClose={closeModal} style={{ width: '800px' }}>
           <EuiModalHeader>
-            <EuiModalHeaderTitle>Modal title</EuiModalHeaderTitle>
+            <EuiModalHeaderTitle>Combo box in a modal</EuiModalHeaderTitle>
           </EuiModalHeader>
 
-          <EuiModalBody>
-            </EuiModalBody>
-
-          <EuiModalFooter>
-            <EuiButtonEmpty onClick={this.closeModal}>Cancel</EuiButtonEmpty>
-
-            <EuiButton onClick={this.closeModal} fill>
-              Save
-            </EuiButton>
-          </EuiModalFooter>
+          <EuiModalBody>{comboBox}</EuiModalBody>
         </EuiModal>
-      </EuiOverlayMask>
+      
+        </div>
     );
   }
-    return (
-      <div  ref={this.componentRef}>
-        <EuiButton onClick={this.showModal}>Show modal</EuiButton>
 
-        {modal}
-        
-      </div>
-    )
-  }
-}
+  return (
+    <Fragment>
+    
+      <EuiButton onClick={showModal}>Show modal</EuiButton>
 
-export default Form
+      {modal}
+    </Fragment>
+  );
+};

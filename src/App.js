@@ -45,6 +45,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import Grid from './componets/ag-grid-sam/Grid'
 // import GridExample from './componets/ag-grid-sam/GridExample'
 import Exe from './componets/ag-grid-sam/Exe'
+// import Exe from './Exersice/Exe'
+
+// import Exe from './componets/EUI/AgGrid'
+// import AgGrid from './componets/Components2/AgGrid'
 import Form from './componets/EUI/Form'
 
 
@@ -138,7 +142,7 @@ function App() {
      {/* <Aggridapi /> */}
      {/* <Grid/> */}
      <Exe />
-     
+    
      {/* <Form /> */}
     </div>
   );   

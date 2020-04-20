@@ -11,7 +11,14 @@ import "@elastic/eui/dist/eui_theme_light.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import FilterBox from "./FilterBox";
 import FlyOut from "./FlyOut";
-import { EuiButtonEmpty } from "@elastic/eui";
+import ModalBox from './ModalBox'
+// import Form from '../EUI/Form'
+import {  EuiModal,
+  EuiButtonEmpty,
+  EuiModalBody,
+  EuiModalHeader,
+  EuiModalHeaderTitle,
+  EuiOverlayMask} from  "@elastic/eui";
 
  class Exe extends Component {
   constructor(props) {
@@ -26,8 +33,12 @@ import { EuiButtonEmpty } from "@elastic/eui";
           maxWidth: 200,
           visible: true,
           hide: false,
+          
           cellRendererFramework:(params)=>{
-            return <EuiButtonEmpty onClick={this.rowClicked}>{params.value}</EuiButtonEmpty>
+          return <EuiButtonEmpty onClick={this.rowClicked}>{params.value}</EuiButtonEmpty>
+          },
+          cellRendererParams:{
+            onClick:this.rowClicked
           }
         },
         {
@@ -54,13 +65,17 @@ import { EuiButtonEmpty } from "@elastic/eui";
         
         { headerName: "tag",
           field: "tag",
-          cellRenderer: "comboBoxRender" ,
+          cellRendererFramework: ModalBox,
           cellRendererParams:{
-            callBack:this.comboBoxCb,
-            indexCb:this.indexCb,
-            selectedOption:null
+            callBack:this.dispaly,
+            closeModal:this.closeModal,
+            comboboxCb:this.comboBoxCb,
+            SelectedOption:null
           },
-          suppressMovable: true,},
+          suppressMovable: true,
+          suppressNavigable: true,
+          editable: false,}
+          ,
 
         {
           headerName: "edit/delete",
@@ -69,9 +84,10 @@ import { EuiButtonEmpty } from "@elastic/eui";
             refer: this,
             cbFunc: this.deleteCallBack,
           },
-          maxWidth: 300,
-          suppressCellSelection:true,
+          maxWidth: 300,          
           suppressMovable: true,
+          suppressNavigable: true,
+          editable: false,
         },
       ],
 
@@ -430,25 +446,20 @@ import { EuiButtonEmpty } from "@elastic/eui";
       currentPage: 0,
       flyOut:false,
       tags:{},
-      selectedIndex:null
+      selectedIndex:null,
+      isModalVisible:false,
+      modal:null
     };
   }
 
+   
+//-----------------------------------------------------------------------------------------------------------------------
 
-  static getDerivedStateFromProps(props, state) {
-    let tag =state.tags
-    let selectedIndex=state.selectedIndex
-    if(selectedIndex===null){
-      tag=[]
+    static getDerivedStateFromProps(props, state) {
+      state.columnDefs[5].cellRendererParams.SelectedOption=state.tags
+      return null
     }
-    else{
-      tag=tag[selectedIndex]||[]
-    }
-    console.log("tags-->",tag)
-    state.columnDefs[5].cellRendererParams.selectedOption=tag
-    console.log(state.columnDefs[5].cellRendererParams.selectedOption)
-    return null
-  }
+
   
   //-----------------------------------------ON GRID READY-----------------------------------------
 
@@ -616,28 +627,80 @@ import { EuiButtonEmpty } from "@elastic/eui";
     const selectedNode = this.gridApi.getSelectedNodes();
     const index = selectedNode[0].id;
 
-    let {tags}=this.state
-    tags[index]=selectedData   
-    this.setState({
-      tags:tags
-    })
+    const {tags}=this.state
+    tags[index]=selectedData    
+
+  //  const {rowData}=this.state
+
+  //  rowData[index].tags=selectedData
+  //  console.log(rowData[index])
+  //  this.setState({
+  //    rowData:rowData
+  //  })
    console.log(tags)
     
   }
-//--------------------------------------Index---------------------------------------------
+  //---------------------------------DisplayModal------------------------------------------
 
-  indexCb=()=>{
-    const selectedNode = this.gridApi.getSelectedNodes();
-    const index = selectedNode[0].id;
+//   displayModal=()=>{
+//     const {isModalVisible}=this.state
+//     if(isModalVisible){
+//      return(
+         
+       
+//       <div style={{paddingLeft:"20%" }}>
+//           <EuiModal onClose={this.closeModal} style={{ width: '800px' }}>
+//           <EuiModalHeader>
+//           <EuiModalHeaderTitle>Combo box in a modal</EuiModalHeaderTitle>
+//           </EuiModalHeader>
+//           <div style={{paddingLeft:"20%" }}><Combobox callBack={this.comboBoxCb} /></div>
+//           <EuiModalBody>
+          
+//           </EuiModalBody>
+//           </EuiModal>
+          
+//        </div>
+        
+//      )
+//     }
+//   }
+
+//   //-----------------------------------------ShowModal----------------------------------------
+//     showModal=()=>{
+//       this.setState({
+//         isModalVisible:true
+//       })
+//     }
+// //--------------------------------------------CloseModal--------------------------------------
+   
+  closeModal=()=>{
     this.setState({
-      selectedIndex:index
+      isModalVisible:false
+    })
+    
+  
+  }
+
+  // ----------------------------------modal-----------------------------------------------
+
+  dispaly=(modal)=>{
+   
+    this.setState({
+      isModalVisible:true,
+      modal:modal
     })
   }
 
+  show=()=>{
+
+    const {isModalVisible,modal}=this.state
+    if(isModalVisible){
+      return modal
+    }
+  }
   // -------------------------------- RENDER--------------------------------------------------
 
   render() {
-    console.log("-------->",this.state.columnDefs[5].cellRendererParams.selectedOption)
     const {
       rowData,
       columnDefs,
@@ -689,8 +752,8 @@ import { EuiButtonEmpty } from "@elastic/eui";
               onDragStopped={this.updated}
               onPaginationChanged={this.changed}
               // suppressDragLeaveHidesColumns={true}
-              onRowClicked={this.rowClicked}
-              // onRowDoubleClicked={()=>{ return (<FlyOut />)}}
+              // onRowClicked={this.rowClicked}
+              // onRowDoubleClicked={this.rowClicked}
             />
 
             <CustomPagination
@@ -701,8 +764,10 @@ import { EuiButtonEmpty } from "@elastic/eui";
               cbFunc={this.callBack}
             />
 
-            
+        {/* {this.displayModal()} */}
+            {this.show()}
           </React.StrictMode>
+          {/* <Form /> */}
         </div>
       </div>
     );

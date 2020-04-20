@@ -1,50 +1,46 @@
-import React, { useState, Fragment } from 'react';
-
-import {
-  EuiComboBox,
-
-} from '@elastic/eui';
+import { EuiComboBox } from '@elastic/eui';
+import React, { useState } from 'react';
 
 const options = [
-    {
-    label: 'A',
+  {
+    label: 'Titan',
+    'data-test-subj': 'titanOption',
   },
   {
-    label: 'B',
+    label: 'Mimas',
   },
   {
-    label: 'C',
+    label: 'Dione',
   },
   {
-    label: 'D',
+    label: 'Iapetus',
   },
   {
-    label: 'E',
+    label: 'Phoebe',
   },
   {
-    label: 'F',
+    label: 'Rhea',
   },
   {
-    label: 'G',
+    label:
+      "Pandora is one of Saturn's moons, named for a Titaness of Greek mythology",
   },
   {
-    label: 'H',
+    label: 'Tethys',
+  },
+  {
+    label: 'Hyperion',
   },
 ];
 
 export default () => {
-  const [selectedOptions, setSelected] = useState([options[0], options[1]]);
-  
+  const [selectedOptions, setSelected] = useState([options[2], options[4]]);
 
   const onChange = selectedOptions => {
     setSelected(selectedOptions);
   };
 
   const onCreateOption = (searchValue, flattenedOptions = []) => {
-    if (!searchValue) {
-      return;
-    }
-
     const normalizedSearchValue = searchValue.trim().toLowerCase();
 
     if (!normalizedSearchValue) {
@@ -68,22 +64,16 @@ export default () => {
     setSelected([...selectedOptions, newOption]);
   };
 
-
-
-
-  
   return (
-    <Fragment>
-       <EuiComboBox
+    <EuiComboBox
       placeholder="Select or create options"
       options={options}
+      delimiter=","
       selectedOptions={selectedOptions}
       onChange={onChange}
       onCreateOption={onCreateOption}
-      style={{ width: '700px' }}
+      isClearable={true}
+      data-test-subj="demoComboBox"
     />
-     
-     
-    </Fragment>
   );
 };
