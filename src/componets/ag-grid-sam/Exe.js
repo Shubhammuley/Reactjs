@@ -10,6 +10,7 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "@elastic/eui/dist/eui_theme_light.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import FilterBox from "./FilterBox";
+import FlyOut from "./FlyOut";
 
  class Exe extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ import FilterBox from "./FilterBox";
 
     this.state = {
       columnDefs: [
-        { headerName: "Id", field: "studentID", minWidth: 10, maxWidth: 100 },
+        { headerName: "Id", field: "studentID", minWidth: 10, maxWidth: 100 ,lockPosition:true},
         {
           headerName: "FirstName",
           field: "firstName",
@@ -46,8 +47,15 @@ import FilterBox from "./FilterBox";
           visible: true,
           hide: false,
         },
-        { headerName: "abc", field: "abc", visible: true, hide: false },
-        { headerName: "tag", field: "tag", cellRenderer: "comboBoxRender" },
+        
+        { headerName: "tag",
+          field: "tag",
+          cellRenderer: "comboBoxRender" ,
+          cellRendererParams:{
+            callBack:this.comboBoxCb,
+            SelectedOption:null
+          },
+          suppressMovable: true,},
 
         {
           headerName: "edit/delete",
@@ -57,6 +65,8 @@ import FilterBox from "./FilterBox";
             cbFunc: this.deleteCallBack,
           },
           maxWidth: 300,
+          
+          suppressMovable: true,
         },
       ],
 
@@ -413,8 +423,13 @@ import FilterBox from "./FilterBox";
       isTagHidden: null,
       PAGE_COUNT: null,
       currentPage: 0,
+      flyOut:false,
+      tags:{},
+      selectedIndex:null
     };
   }
+
+
   
   //-----------------------------------------ON GRID READY-----------------------------------------
 
@@ -516,7 +531,10 @@ import FilterBox from "./FilterBox";
       columnDefs[index].hide=!hide;
       this.setState({
           columnDefs:columnDefs
-      },()=>{this.gridColumnApi.setColumnVisible(field, hide)})
+      },()=>{
+          this.gridColumnApi.setColumnVisible(field, hide);
+          this.gridApi.sizeColumnsToFit();
+        })
             
   }
 
@@ -531,6 +549,66 @@ import FilterBox from "./FilterBox";
   goToPageCb=(pageNumber)=>{
     this.gridApi.paginationGoToPage(pageNumber)
 
+  }
+//---------------------------------------ROW Clicked----------------------------------
+
+ rowClicked=()=>{
+   
+  this.selectedRow = this.gridApi.getSelectedRows();
+  const selectedNode = this.gridApi.getSelectedNodes();
+  const index = selectedNode[0].id;
+  console.log(this.gridApi.getSelectedNodes())
+  console.log(this.gridColumnApi)
+  
+   
+  this.setState({
+    selectedIndex:index,
+    flyOut:true
+  })
+   
+ }
+
+ //-----------------------------------FlyOut------------------------------------------------
+
+  flyOut=()=>{
+     
+    let {tags,selectedIndex}=this.state
+    if(selectedIndex===null){
+      tags=[]
+    }
+    else{
+      tags=tags[selectedIndex]||[]
+    }
+    if(this.state.flyOut){
+      return (<FlyOut  selectedRow={this.selectedRow} index={this.selectedIndex} tags={tags} callBack={this.flyOutCb}/>)
+    }
+  }
+  
+//----------------------------------FlyOut callback--------------------------------
+ 
+ flyOutCb=()=>{
+  this.setState({
+    flyOut:false
+  })
+ }
+ //--------------------------------combobox callback-------------------------------------
+
+  comboBoxCb=(selectedData)=>{
+    const selectedNode = this.gridApi.getSelectedNodes();
+    const index = selectedNode[0].id;
+
+    const {tags}=this.state
+    tags[index]=selectedData    
+
+  //  const {rowData}=this.state
+
+  //  rowData[index].tags=selectedData
+  //  console.log(rowData[index])
+  //  this.setState({
+  //    rowData:rowData
+  //  })
+   console.log(tags)
+    
   }
 
   // -------------------------------- RENDER--------------------------------------------------
@@ -549,6 +627,7 @@ import FilterBox from "./FilterBox";
 
     return (
       <div>
+        {this.flyOut()}
         <FilterBox  cbFunc={this.filterCallback} />
         {/* <Pagination gridApi={this.gridApi} cbFunc={this.callBack}/> */}
         <div>
@@ -585,6 +664,9 @@ import FilterBox from "./FilterBox";
               enableCellChangeFlash={true}
               onDragStopped={this.updated}
               onPaginationChanged={this.changed}
+              // suppressDragLeaveHidesColumns={true}
+              // onRowClicked={this.rowClicked}
+              onRowDoubleClicked={this.rowClicked}
             />
 
             <CustomPagination
@@ -594,6 +676,8 @@ import FilterBox from "./FilterBox";
               goToPageCb={this.goToPageCb}
               cbFunc={this.callBack}
             />
+
+            
           </React.StrictMode>
         </div>
       </div>
