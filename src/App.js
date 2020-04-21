@@ -45,11 +45,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import Grid from './componets/ag-grid-sam/Grid'
 // import GridExample from './componets/ag-grid-sam/GridExample'
 import Exe from './componets/ag-grid-sam/Exe'
+<<<<<<< HEAD
 // import Exe from './Exersice/Exe'
 
 // import Exe from './componets/EUI/AgGrid'
 // import AgGrid from './componets/Components2/AgGrid'
 import Form from './componets/EUI/Form'
+=======
+// import Exe from './componets/EUI/Exe'
+
+// import Form from './componets/EUI/Form'
+>>>>>>> 5f58eb8a4c9ac08cf0853596748ebab2d18177d2
 
 
 import '@elastic/eui/dist/eui_theme_light.css';
