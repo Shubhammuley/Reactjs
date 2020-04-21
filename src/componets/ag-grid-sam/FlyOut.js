@@ -43,14 +43,10 @@ class FlyOut extends Component {
 
     this.props.callBack();
   }
-<<<<<<< HEAD
   // badge=(e)=>{
   //  console.log(e.key)
   // }
 
-=======
-  
->>>>>>> 5f58eb8a4c9ac08cf0853596748ebab2d18177d2
   flyout=(flag)=>{
     if (flag) {
       const {selectedRow,tags}=this.props
@@ -76,11 +72,7 @@ class FlyOut extends Component {
 
              <strong>tags :</strong>
              { tags.map((tag,index)=>{
-<<<<<<< HEAD
                 return (<EuiBadge key={index}   iconType="cross" iconSide="right">{tag.label}</EuiBadge>) 
-=======
-                return (<EuiBadge key={index}  iconType="cross" iconSide="right">{tag.label}</EuiBadge>) 
->>>>>>> 5f58eb8a4c9ac08cf0853596748ebab2d18177d2
              })}
            </EuiText>
            
